@@ -1,12 +1,16 @@
-# smart-pull-planner
-# 原石シミュ
-## サイトの目的
-ユーザーが原神のガチャにおいて、現在の所持状況から目標の凸数・精錬数に到達するために必要なガチャ回数・原石数の目安を確認できるサイト。
-## 実装する機能
-１，キャラの現在の凸数（未所持含む）と武器の凸数（未所持を含む）を入力してもらって、そこからどこまで凸を進めるかを入力してもらう
+# React + Vite
 
-２，現在所持している原石数、紡がれた運命の数、スターライト数を入力してもらう
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-３，今ガチャを引いている回数と過去のすり抜け状況を入力してもらう
+Currently, two official plugins are available:
 
-４，結果の表示。必要ガチャ回数、原石数でも出す、不足の場合はその数も出す。必要ガチャ回数は運がいいパターン、平均的な運のパターン、運が悪いパターンでそれぞれ出す。
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
