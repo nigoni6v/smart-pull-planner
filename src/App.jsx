@@ -23,10 +23,11 @@ function App() {
 
         <section className="workspace-grid">
           <section className="panel">
-            <p className="section-label">Step 1</p>
-            <h2>蜈･蜉帙お繝ｪ繧｢</h2>
+            <h2>ガチャ条件を入力</h2>
             <p className="panel-copy">
-              縺ｾ縺壹・縺薙％縺ｫ蜈･蜉帙ヵ繧ｩ繝ｼ繝繧堤ｽｮ縺・※縺・″縺ｾ縺吶ゆｻ翫・隕九◆逶ｮ縺ｮ蝨溷床縺縺代ｒ菴懊▲縺ｦ縺・∪縺吶・
+              キャラ<br />
+              現在の所持状況<br />
+              目標凸数
             </p>
           </section>
 
