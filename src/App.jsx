@@ -4,7 +4,7 @@ function App() {
   return (
     <main className="app-shell">
       <section className="hero-panel">
-        <p className="eyebrow">Genshin Impact Character Banner Planner</p>
+        <p className="eyebrow">Genshin Smart Pull Planner</p>
         <h1>原神ガチャプランナー</h1>
         <p className="hero-copy">
           ✦限定キャラ祈願で目標の凸数に届くまで、どれくらいの原石と連数が必要かを
