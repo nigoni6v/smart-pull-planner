@@ -6,37 +6,106 @@ function App() {
       <header className="site-band">
         <div className="site-band__inner">
           <p className="eyebrow">Genshin Smart Pull Planner</p>
-          <h1>原神ガチャプランナー</h1>
+          <h1>ガチャシミュレーション</h1>
         </div>
       </header>
 
       <main className="app-shell">
         <section className="hero-panel">
+          <h2>ガチャシミュレーションの使い方</h2>
           <p className="hero-copy">
-            <h2>原神のガチャをいろんな条件でシミュレーション</h2>
-            ✦使用方法✦<br />
-            1．引きたいキャラの凸数、精錬数を入力<br />
-            2．所持しているリソースを入力（原石、紡がれた運命、スターライト）<br />
-            3．シミュレーション開始ボタンを押すと結果が表示されます
+            使用方法
+            <br />
+            1. 引きたいキャラの情報を入力
+            <br />
+            2. 現在の所持状況を確認して入力
+            <br />
+            3. 条件を決めて必要数を確認
           </p>
         </section>
 
         <section className="workspace-grid">
           <section className="panel">
             <h2>ガチャ条件を入力</h2>
-            <p className="panel-copy">
-              キャラ<br />
-              現在の所持状況<br />
-              目標凸数
-            </p>
+
+            <div className="panel-split">
+              <div className="split-column">
+                <h3>キャラ</h3>
+
+                <label className="form-field">
+                  <span className="field-label">所持状況</span>
+                  <select className="field-control" defaultValue="無凸">
+                    <option>無凸</option>
+                    <option>1凸</option>
+                    <option>2凸</option>
+                    <option>3凸</option>
+                    <option>4凸</option>
+                    <option>5凸</option>
+                    <option>完凸</option>
+                  </select>
+                </label>
+
+                <label className="form-field">
+                  <span className="field-label">目標数</span>
+                  <select className="field-control" defaultValue="2凸">
+                    <option>無凸</option>
+                    <option>1凸</option>
+                    <option>2凸</option>
+                    <option>3凸</option>
+                    <option>4凸</option>
+                    <option>5凸</option>
+                    <option>完凸</option>
+                  </select>
+                </label>
+              </div>
+
+              <div className="split-column">
+                <h3>武器</h3>
+
+                <label className="form-field">
+                  <span className="field-label">所持状況</span>
+                  <select className="field-control" defaultValue="精錬1">
+                    <option>未所持</option>
+                    <option>精錬1</option>
+                    <option>精錬2</option>
+                    <option>精錬3</option>
+                    <option>精錬4</option>
+                    <option>精錬5</option>
+                  </select>
+                </label>
+
+                <label className="form-field">
+                  <span className="field-label">目標数</span>
+                  <select className="field-control" defaultValue="精錬1">
+                    <option>未所持</option>
+                    <option>精錬1</option>
+                    <option>精錬2</option>
+                    <option>精錬3</option>
+                    <option>精錬4</option>
+                    <option>精錬5</option>
+                  </select>
+                </label>
+              </div>
+            </div>
           </section>
 
           <section className="panel">
-            <p className="section-label">Step 2</p>
-            <h2>邨先棡繧ｨ繝ｪ繧｢</h2>
-            <p className="panel-copy">
-              縺ゅ→縺ｧ譛溷ｾ・｣謨ｰ縲∝ｿ・ｦ∝次遏ｳ謨ｰ縲∝芦驕皮｢ｺ邇・ｒ縺薙％縺ｫ陦ｨ遉ｺ縺励∪縺吶・
-            </p>
+            <h2>リソースを入力</h2>
+            <div className="panel-split">
+              <div>
+                原石
+                <br />
+                紡がれた運命
+                <br />
+                スターライト
+              </div>
+
+              <div>
+                現在のガチャ回数
+                <br />
+                天井までの回数
+              </div>
+            </div>
           </section>
         </section>
       </main>
