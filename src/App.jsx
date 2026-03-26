@@ -6,7 +6,7 @@ function App() {
       <header className="site-band">
         <div className="site-band__inner">
           <p className="eyebrow">Genshin Smart Pull Planner</p>
-          <h1>ガチャシミュレーション</h1>
+          <h1>原神ガチャシミュレーター</h1>
         </div>
       </header>
 
@@ -34,7 +34,8 @@ function App() {
 
                 <label className="form-field">
                   <span className="field-label">所持状況</span>
-                  <select className="field-control" defaultValue="無凸">
+                  <select className="field-control" defaultValue="未所持">
+                    <option>未所持</option>
                     <option>無凸</option>
                     <option>1凸</option>
                     <option>2凸</option>
@@ -47,7 +48,8 @@ function App() {
 
                 <label className="form-field">
                   <span className="field-label">目標数</span>
-                  <select className="field-control" defaultValue="2凸">
+                  <select className="field-control" defaultValue="未所持">
+                    <option>未所持</option>
                     <option>無凸</option>
                     <option>1凸</option>
                     <option>2凸</option>
@@ -64,7 +66,7 @@ function App() {
 
                 <label className="form-field">
                   <span className="field-label">所持状況</span>
-                  <select className="field-control" defaultValue="精錬1">
+                  <select className="field-control" defaultValue="未所持">
                     <option>未所持</option>
                     <option>精錬1</option>
                     <option>精錬2</option>
@@ -76,7 +78,7 @@ function App() {
 
                 <label className="form-field">
                   <span className="field-label">目標数</span>
-                  <select className="field-control" defaultValue="精錬1">
+                  <select className="field-control" defaultValue="未所持">
                     <option>未所持</option>
                     <option>精錬1</option>
                     <option>精錬2</option>

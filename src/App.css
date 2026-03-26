@@ -82,7 +82,11 @@
 
 .split-column {
   display: grid;
-  gap: 16px;
+  gap: 10px;
+}
+
+.split-column h3 {
+  margin-bottom: 0;
 }
 
 .form-field {
