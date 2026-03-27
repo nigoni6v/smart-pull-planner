@@ -1,6 +1,20 @@
+import { useState } from 'react'
 import './App.css'
 
 function App() {
+  const [resources, setResources] = useState({
+    primogems: '',
+    intertwinedFates: '',
+    starlight: '',
+  })
+
+  const handleResourceChange = (key) => (event) => {
+    setResources((prev) => ({
+      ...prev,
+      [key]: event.target.value,
+    }))
+  }
+
   return (
     <>
       <header className="site-band">
@@ -20,7 +34,7 @@ function App() {
             <br />
             2. 現在の所持状況を確認して入力
             <br />
-            3. 条件を決めて必要数を確認
+            3. 条件を決めて必要回数を確認
           </p>
         </section>
 
@@ -33,7 +47,7 @@ function App() {
                 <h3>キャラ</h3>
 
                 <label className="form-field">
-                  <span className="field-label">所持状況</span>
+                  <span className="field-label">現在の凸数</span>
                   <select className="field-control" defaultValue="未所持">
                     <option>未所持</option>
                     <option>無凸</option>
@@ -47,9 +61,9 @@ function App() {
                 </label>
 
                 <label className="form-field">
-                  <span className="field-label">目標数</span>
-                  <select className="field-control" defaultValue="未所持">
-                    <option>未所持</option>
+                  <span className="field-label">目標凸数</span>
+                  <select className="field-control" defaultValue="未選択">
+                    <option>未選択</option>
                     <option>無凸</option>
                     <option>1凸</option>
                     <option>2凸</option>
@@ -65,9 +79,9 @@ function App() {
                 <h3>武器</h3>
 
                 <label className="form-field">
-                  <span className="field-label">所持状況</span>
-                  <select className="field-control" defaultValue="未所持">
-                    <option>未所持</option>
+                  <span className="field-label">現在の精錬数</span>
+                  <select className="field-control" defaultValue="未選択">
+                    <option>未選択</option>
                     <option>精錬1</option>
                     <option>精錬2</option>
                     <option>精錬3</option>
@@ -77,9 +91,9 @@ function App() {
                 </label>
 
                 <label className="form-field">
-                  <span className="field-label">目標数</span>
-                  <select className="field-control" defaultValue="未所持">
-                    <option>未所持</option>
+                  <span className="field-label">目標精錬数</span>
+                  <select className="field-control" defaultValue="未選択">
+                    <option>未選択</option>
                     <option>精錬1</option>
                     <option>精錬2</option>
                     <option>精錬3</option>
@@ -94,12 +108,42 @@ function App() {
           <section className="panel">
             <h2>リソースを入力</h2>
             <div className="panel-split">
-              <div>
-                原石
-                <br />
-                紡がれた運命
-                <br />
-                スターライト
+              <div className="split-column">
+                <label className="form-field">
+                  <span className="field-label">原石</span>
+                  <input
+                    className="field-control"
+                    type="number"
+                    min="0"
+                    value={resources.primogems}
+                    onChange={handleResourceChange('primogems')}
+                    placeholder="所持数を入力"
+                  />
+                </label>
+
+                <label className="form-field">
+                  <span className="field-label">紡がれた運命</span>
+                  <input
+                    className="field-control"
+                    type="number"
+                    min="0"
+                    value={resources.intertwinedFates}
+                    onChange={handleResourceChange('intertwinedFates')}
+                    placeholder="所持数を入力"
+                  />
+                </label>
+
+                <label className="form-field">
+                  <span className="field-label">スターライト</span>
+                  <input
+                    className="field-control"
+                    type="number"
+                    min="0"
+                    value={resources.starlight}
+                    onChange={handleResourceChange('starlight')}
+                    placeholder="所持数を入力"
+                  />
+                </label>
               </div>
 
               <div>
