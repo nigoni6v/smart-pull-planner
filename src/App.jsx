@@ -192,10 +192,10 @@ function App() {
                 </div>
 
                 <p className="field-help">
-                  スターライトは {STARLIGHT_PER_INTERTWINED_FATE} 個で紡がれた運命 1 個に交換できる前提で計算しています。
+                  ※スターライトは {STARLIGHT_PER_INTERTWINED_FATE} 個で紡がれた運命 1 個に交換できる前提で計算しています。
                 </p>
                 <p className="field-help">
-                  スターライト換算分: {starlightConvertibleFates.toLocaleString()} 回分
+                  ※スターライト換算分: {starlightConvertibleFates.toLocaleString()} 回分
                 </p>
               </div>
             </div>
