@@ -99,6 +99,19 @@
   color: var(--text-muted);
 }
 
+.field-label--with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.resource-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .field-control {
   width: 100%;
   padding: 12px 14px;

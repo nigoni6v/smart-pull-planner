@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import intertwinedFateIcon from './assets/Intertwined Fate.png'
+import starlightIcon from './assets/Masterless Starglitter.png'
+import primogemIcon from './assets/primogem.png'
 import './App.css'
 
 function App() {
@@ -34,7 +37,7 @@ function App() {
             <br />
             2. 現在の所持状況を確認して入力
             <br />
-            3. 条件を決めて必要回数を確認
+            3. 条件を決めて必要数を確認
           </p>
         </section>
 
@@ -110,7 +113,10 @@ function App() {
             <div className="panel-split">
               <div className="split-column">
                 <label className="form-field">
-                  <span className="field-label">原石</span>
+                  <span className="field-label field-label--with-icon">
+                    <img className="resource-icon" src={primogemIcon} alt="原石" />
+                    <span>原石</span>
+                  </span>
                   <input
                     className="field-control"
                     type="number"
@@ -122,7 +128,14 @@ function App() {
                 </label>
 
                 <label className="form-field">
-                  <span className="field-label">紡がれた運命</span>
+                  <span className="field-label field-label--with-icon">
+                    <img
+                      className="resource-icon"
+                      src={intertwinedFateIcon}
+                      alt="紡がれた運命"
+                    />
+                    <span>紡がれた運命</span>
+                  </span>
                   <input
                     className="field-control"
                     type="number"
@@ -134,7 +147,10 @@ function App() {
                 </label>
 
                 <label className="form-field">
-                  <span className="field-label">スターライト</span>
+                  <span className="field-label field-label--with-icon">
+                    <img className="resource-icon" src={starlightIcon} alt="スターライト" />
+                    <span>スターライト</span>
+                  </span>
                   <input
                     className="field-control"
                     type="number"
