@@ -4,6 +4,9 @@ import starlightIcon from './assets/Masterless Starglitter.png'
 import primogemIcon from './assets/primogem.png'
 import './App.css'
 
+const PRIMOGEMS_PER_WISH = 160
+const STARLIGHT_PER_INTERTWINED_FATE = 5
+
 function App() {
   const [resources, setResources] = useState({
     primogems: '',
@@ -17,6 +20,19 @@ function App() {
       [key]: event.target.value,
     }))
   }
+
+  const primogems = Number(resources.primogems) || 0
+  const intertwinedFates = Number(resources.intertwinedFates) || 0
+  const starlight = Number(resources.starlight) || 0
+
+  const starlightConvertibleFates = Math.floor(
+    starlight / STARLIGHT_PER_INTERTWINED_FATE,
+  )
+  const totalPrimogemEquivalent =
+    primogems +
+    intertwinedFates * PRIMOGEMS_PER_WISH +
+    starlightConvertibleFates * PRIMOGEMS_PER_WISH
+  const totalWishCount = Math.floor(totalPrimogemEquivalent / PRIMOGEMS_PER_WISH)
 
   return (
     <>
@@ -162,10 +178,25 @@ function App() {
                 </label>
               </div>
 
-              <div>
-                現在のガチャ回数
-                <br />
-                天井までの回数
+              <div className="resource-summary">
+                <h3>換算結果</h3>
+
+                <div className="summary-card">
+                  <p className="summary-label">原石換算</p>
+                  <p className="summary-value">{totalPrimogemEquivalent.toLocaleString()} 個</p>
+                </div>
+
+                <div className="summary-card">
+                  <p className="summary-label">実質ガチャ回数</p>
+                  <p className="summary-value">{totalWishCount.toLocaleString()} 連</p>
+                </div>
+
+                <p className="field-help">
+                  スターライトは {STARLIGHT_PER_INTERTWINED_FATE} 個で紡がれた運命 1 個に交換できる前提で計算しています。
+                </p>
+                <p className="field-help">
+                  スターライト換算分: {starlightConvertibleFates.toLocaleString()} 回分
+                </p>
               </div>
             </div>
           </section>
