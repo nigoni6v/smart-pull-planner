@@ -72,7 +72,6 @@ function App() {
     totalExpectedWishes,
     totalExpectedPrimogems,
     successProbability,
-    remainingWishCount,
   } = combinedPlan
 
   return (
@@ -322,33 +321,28 @@ function App() {
             <p className="section-label">Results</p>
             <h2>計算結果</h2>
 
-            <div className="results-grid">
+            <div className="results-grid results-grid--primary">
               <div className="summary-card summary-card--accent">
-                <p className="summary-label">両方達成確率</p>
-                <p className="summary-value">{probabilityLabel(successProbability)}</p>
-              </div>
-
-              <div className="summary-card">
-                <p className="summary-label">両方達成までの期待回数</p>
-                <p className="summary-value">{numberLabel(totalExpectedWishes)} 連</p>
+                <p className="summary-label">必要なガチャ回数の期待値</p>
+                <p className="summary-value">約 {numberLabel(totalExpectedWishes)} 連</p>
                 <p className="field-help">
-                  期待原石: {Math.round(totalExpectedPrimogems).toLocaleString()} 個
+                  原石換算: 約 {Math.round(totalExpectedPrimogems).toLocaleString()} 個
                 </p>
               </div>
 
               <div className="summary-card">
-                <p className="summary-label">期待残り回数</p>
-                <p className="summary-value">{numberLabel(remainingWishCount)} 連</p>
-                <p className="field-help">実質ガチャ回数から期待回数を引いた目安です。</p>
+                <p className="summary-label">所持リソースで達成できる確率</p>
+                <p className="summary-value">{probabilityLabel(successProbability)}</p>
+                <p className="field-help">
+                  実質ガチャ回数: {resources.totalWishCount.toLocaleString()} 連
+                </p>
               </div>
             </div>
 
             <div className="results-grid results-grid--dual">
               <div className="summary-card">
-                <p className="summary-label">キャラ達成確率</p>
-                <p className="summary-value">
-                  {probabilityLabel(characterPlan.successProbability)}
-                </p>
+                <p className="summary-label">キャラ祈願</p>
+                <p className="summary-value">{probabilityLabel(characterPlan.successProbability)}</p>
                 <p className="field-help">
                   必要コピー数: {characterPlan.copiesNeeded} / 期待回数:{' '}
                   {numberLabel(characterPlan.expectedWishes)} 連
@@ -356,10 +350,8 @@ function App() {
               </div>
 
               <div className="summary-card">
-                <p className="summary-label">武器達成確率</p>
-                <p className="summary-value">
-                  {probabilityLabel(weaponPlan.successProbability)}
-                </p>
+                <p className="summary-label">武器祈願</p>
+                <p className="summary-value">{probabilityLabel(weaponPlan.successProbability)}</p>
                 <p className="field-help">
                   必要コピー数: {weaponPlan.copiesNeeded} / 期待回数:{' '}
                   {numberLabel(weaponPlan.expectedWishes)} 連
@@ -367,41 +359,45 @@ function App() {
               </div>
             </div>
 
-            <div className="detail-grid">
-              <div className="detail-card">
-                <h3>キャラ祈願の内訳</h3>
-                <p className="detail-row">
-                  <span>期待原石</span>
-                  <strong>{Math.round(characterPlan.expectedPrimogems).toLocaleString()} 個</strong>
-                </p>
-                <p className="detail-row">
-                  <span>現在の天井</span>
-                  <strong>{characterPlan.characterPity} 連</strong>
-                </p>
-                <p className="detail-row">
-                  <span>限定確定状態</span>
-                  <strong>{characterPlan.characterGuaranteed ? 'あり' : 'なし'}</strong>
-                </p>
-              </div>
+            <details className="result-details">
+              <summary className="result-details__summary">キャラ祈願と武器祈願の詳細を見る</summary>
 
-              <div className="detail-card">
-                <h3>武器祈願の内訳</h3>
-                <p className="detail-row">
-                  <span>期待原石</span>
-                  <strong>{Math.round(weaponPlan.expectedPrimogems).toLocaleString()} 個</strong>
-                </p>
-                <p className="detail-row">
-                  <span>現在の天井</span>
-                  <strong>{weaponPlan.weaponPity} 連</strong>
-                </p>
-                <p className="detail-row">
-                  <span>PU確定 / 命定値</span>
-                  <strong>
-                    {weaponPlan.weaponGuaranteed ? '確定' : '非確定'} / {weaponPlan.epitomizedPathPoints}
-                  </strong>
-                </p>
+              <div className="detail-grid">
+                <div className="detail-card">
+                  <h3>キャラ祈願の内訳</h3>
+                  <p className="detail-row">
+                    <span>期待原石</span>
+                    <strong>{Math.round(characterPlan.expectedPrimogems).toLocaleString()} 個</strong>
+                  </p>
+                  <p className="detail-row">
+                    <span>現在の天井</span>
+                    <strong>{characterPlan.characterPity} 連</strong>
+                  </p>
+                  <p className="detail-row">
+                    <span>限定確定状態</span>
+                    <strong>{characterPlan.characterGuaranteed ? 'あり' : 'なし'}</strong>
+                  </p>
+                </div>
+
+                <div className="detail-card">
+                  <h3>武器祈願の内訳</h3>
+                  <p className="detail-row">
+                    <span>期待原石</span>
+                    <strong>{Math.round(weaponPlan.expectedPrimogems).toLocaleString()} 個</strong>
+                  </p>
+                  <p className="detail-row">
+                    <span>現在の天井</span>
+                    <strong>{weaponPlan.weaponPity} 連</strong>
+                  </p>
+                  <p className="detail-row">
+                    <span>PU確定 / 命定値</span>
+                    <strong>
+                      {weaponPlan.weaponGuaranteed ? '確定' : '非確定'} / {weaponPlan.epitomizedPathPoints}
+                    </strong>
+                  </p>
+                </div>
               </div>
-            </div>
+            </details>
           </section>
         </section>
       </main>
