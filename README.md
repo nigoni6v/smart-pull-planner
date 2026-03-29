@@ -1,16 +1,94 @@
-# React + Vite
+# Smart Pull Planner
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+原神の限定キャラ祈願と武器祈願について、入力した条件をもとに必要回数と必要原石数の目安を計算する React + Vite 製のサイトです。
 
-Currently, two official plugins are available:
+## 現在できること
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 所持原石、紡がれた運命、スターライトから実質ガチャ回数を換算
+- 限定キャラ祈願の必要回数を計算
+  - 現在の所持状態
+  - 目標の所持状態
+  - 現在の天井
+  - 次の限定確定状態
+- 武器祈願の必要回数を計算
+  - 現在の所持状態
+  - 目標の所持状態
+  - 現在の天井
+  - 次の PU 確定状態
+  - 命定値
+- キャラと武器の両方を達成するための
+  - 達成確率
+  - 期待回数
+  - 期待原石
+  - 残り回数の目安
+  を即時計算で表示
 
-## React Compiler
+## 入力項目
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### キャラ祈願
 
-## Expanding the ESLint configuration
+- 現在の所持状態: 未所持 〜 完凸
+- 目標の所持状態: 未所持 〜 完凸
+- 現在の天井カウント: 0 〜 89
+- 次の星5が限定キャラ確定かどうか
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 武器祈願
+
+- 現在の所持状態: 未所持 〜 精錬5
+- 目標の所持状態: 未所持 〜 精錬5
+- 現在の天井カウント: 0 〜 79
+- 次の星5が PU 武器確定かどうか
+- 命定値: 0 または 1
+
+### リソース
+
+- 原石
+- 紡がれた運命
+- スターライト
+
+## 計算前提
+
+- 対象は限定キャラ祈願と武器祈願のみ
+- キャラは 50/50 と次回確定を考慮
+- 武器は PU 確定状態と命定値を考慮
+- 命定値は現行仕様に合わせて 0 / 1 で扱う
+- スターライトは 5 個で紡がれた運命 1 個に交換できる前提
+- スターライト再獲得による資源循環は未対応
+- 星4以下の排出、副産物、より細かいソフト天井の厳密再現は未対応
+- 結果は入力に対する確率モデル上の目安であり、実際の結果を保証するものではない
+
+## 技術構成
+
+- React 19
+- Vite 8
+- ESLint
+- Node.js built-in test runner
+
+## 開発コマンド
+
+```bash
+npm install
+npm run dev
+```
+
+```bash
+npm test
+npm run lint
+npm run build
+```
+
+## 主なファイル
+
+- `src/App.jsx`
+  - 入力 UI と結果表示
+- `src/gachaCalculator.js`
+  - ガチャ計算ロジック
+- `src/gachaCalculator.test.js`
+  - 計算ロジックのテスト
+
+## 今後の改善候補
+
+- 必要原石数を分位点ベースでも見られるようにする
+- キャラ祈願 / 武器祈願を個別に詳しく表示する
+- 表示文言とレイアウトの調整
+- 計算モデルの精度向上
