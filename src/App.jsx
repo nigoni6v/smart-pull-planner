@@ -3,121 +3,229 @@ import intertwinedFateIcon from './assets/Intertwined Fate.png'
 import starlightIcon from './assets/Masterless Starglitter.png'
 import primogemIcon from './assets/primogem.png'
 import './App.css'
+import {
+  STARLIGHT_PER_INTERTWINED_FATE,
+  buildAvailableWishes,
+  calculateCombinedPlan,
+} from './gachaCalculator'
 
-const PRIMOGEMS_PER_WISH = 160
-const STARLIGHT_PER_INTERTWINED_FATE = 5
+const characterOptions = [
+  { value: '0', label: '未所持' },
+  { value: '1', label: '無凸' },
+  { value: '2', label: '1凸' },
+  { value: '3', label: '2凸' },
+  { value: '4', label: '3凸' },
+  { value: '5', label: '4凸' },
+  { value: '6', label: '5凸' },
+  { value: '7', label: '完凸' },
+]
+
+const weaponOptions = [
+  { value: '0', label: '未所持' },
+  { value: '1', label: '精錬1' },
+  { value: '2', label: '精錬2' },
+  { value: '3', label: '精錬3' },
+  { value: '4', label: '精錬4' },
+  { value: '5', label: '精錬5' },
+]
+
+const probabilityLabel = (probability) => `${(probability * 100).toFixed(1)}%`
+const numberLabel = (value) => value.toLocaleString(undefined, {
+  maximumFractionDigits: 1,
+  minimumFractionDigits: value % 1 === 0 ? 0 : 1,
+})
 
 function App() {
-  const [resources, setResources] = useState({
+  const [form, setForm] = useState({
+    currentConstellation: '0',
+    targetConstellation: '0',
+    characterPity: '',
+    characterGuaranteed: 'false',
+    currentRefinement: '0',
+    targetRefinement: '0',
+    weaponPity: '',
+    weaponGuaranteed: 'false',
+    epitomizedPathPoints: '0',
     primogems: '',
     intertwinedFates: '',
     starlight: '',
   })
 
-  const handleResourceChange = (key) => (event) => {
-    setResources((prev) => ({
+  const updateField = (key) => (event) => {
+    setForm((prev) => ({
       ...prev,
       [key]: event.target.value,
     }))
   }
 
-  const primogems = Number(resources.primogems) || 0
-  const intertwinedFates = Number(resources.intertwinedFates) || 0
-  const starlight = Number(resources.starlight) || 0
+  const resources = buildAvailableWishes(form)
+  const combinedPlan = calculateCombinedPlan({
+    ...form,
+    availableWishes: resources.totalWishCount,
+    characterGuaranteed: form.characterGuaranteed === 'true',
+    weaponGuaranteed: form.weaponGuaranteed === 'true',
+  })
 
-  const starlightConvertibleFates = Math.floor(
-    starlight / STARLIGHT_PER_INTERTWINED_FATE,
-  )
-  const totalPrimogemEquivalent =
-    primogems +
-    intertwinedFates * PRIMOGEMS_PER_WISH +
-    starlightConvertibleFates * PRIMOGEMS_PER_WISH
-  const totalWishCount = Math.floor(totalPrimogemEquivalent / PRIMOGEMS_PER_WISH)
+  const {
+    characterPlan,
+    weaponPlan,
+    totalExpectedWishes,
+    totalExpectedPrimogems,
+    successProbability,
+    remainingWishCount,
+  } = combinedPlan
 
   return (
     <>
       <header className="site-band">
         <div className="site-band__inner">
           <p className="eyebrow">Genshin Smart Pull Planner</p>
-          <h1>原神ガチャシミュレーター</h1>
+          <h1>原神ガチャ確率プランナー</h1>
         </div>
       </header>
 
       <main className="app-shell">
         <section className="hero-panel">
-          <h2>ガチャシミュレーションの使い方</h2>
+          <p className="section-label">Probability Planner</p>
+          <h2>入力した条件から、キャラと武器を両取りできる確率をすぐ計算</h2>
           <p className="hero-copy">
-            使用方法
-            <br />
-            1. 引きたいキャラの情報を入力
-            <br />
-            2. 現在の所持状況を確認して入力
-            <br />
-            3. 条件を決めて必要数を確認
+            現在の凸数、精錬数、天井、保証状態、命定値、所持資源を入力すると、
+            限定キャラ祈願と武器祈願を両方達成できる確率と期待値を即時計算します。
           </p>
         </section>
 
         <section className="workspace-grid">
           <section className="panel">
+            <p className="section-label">Inputs</p>
             <h2>ガチャ条件を入力</h2>
 
             <div className="panel-split">
               <div className="split-column">
-                <h3>キャラ</h3>
+                <h3>キャラ祈願</h3>
 
                 <label className="form-field">
-                  <span className="field-label">現在の凸数</span>
-                  <select className="field-control" defaultValue="未所持">
-                    <option>未所持</option>
-                    <option>無凸</option>
-                    <option>1凸</option>
-                    <option>2凸</option>
-                    <option>3凸</option>
-                    <option>4凸</option>
-                    <option>5凸</option>
-                    <option>完凸</option>
+                  <span className="field-label">現在の所持状態</span>
+                  <select
+                    className="field-control"
+                    value={form.currentConstellation}
+                    onChange={updateField('currentConstellation')}
+                  >
+                    {characterOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
                 </label>
 
                 <label className="form-field">
-                  <span className="field-label">目標凸数</span>
-                  <select className="field-control" defaultValue="未選択">
-                    <option>未選択</option>
-                    <option>無凸</option>
-                    <option>1凸</option>
-                    <option>2凸</option>
-                    <option>3凸</option>
-                    <option>4凸</option>
-                    <option>5凸</option>
-                    <option>完凸</option>
+                  <span className="field-label">目標の所持状態</span>
+                  <select
+                    className="field-control"
+                    value={form.targetConstellation}
+                    onChange={updateField('targetConstellation')}
+                  >
+                    {characterOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="form-field">
+                  <span className="field-label">現在の天井カウント</span>
+                  <input
+                    className="field-control"
+                    type="number"
+                    min="0"
+                    max="89"
+                    value={form.characterPity}
+                    onChange={updateField('characterPity')}
+                    placeholder="0-89"
+                  />
+                </label>
+
+                <label className="form-field">
+                  <span className="field-label">次の★5は限定キャラ確定</span>
+                  <select
+                    className="field-control"
+                    value={form.characterGuaranteed}
+                    onChange={updateField('characterGuaranteed')}
+                  >
+                    <option value="false">いいえ</option>
+                    <option value="true">はい</option>
                   </select>
                 </label>
               </div>
 
               <div className="split-column">
-                <h3>武器</h3>
+                <h3>武器祈願</h3>
 
                 <label className="form-field">
-                  <span className="field-label">現在の精錬数</span>
-                  <select className="field-control" defaultValue="未選択">
-                    <option>未選択</option>
-                    <option>精錬1</option>
-                    <option>精錬2</option>
-                    <option>精錬3</option>
-                    <option>精錬4</option>
-                    <option>精錬5</option>
+                  <span className="field-label">現在の所持状態</span>
+                  <select
+                    className="field-control"
+                    value={form.currentRefinement}
+                    onChange={updateField('currentRefinement')}
+                  >
+                    {weaponOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
                 </label>
 
                 <label className="form-field">
-                  <span className="field-label">目標精錬数</span>
-                  <select className="field-control" defaultValue="未選択">
-                    <option>未選択</option>
-                    <option>精錬1</option>
-                    <option>精錬2</option>
-                    <option>精錬3</option>
-                    <option>精錬4</option>
-                    <option>精錬5</option>
+                  <span className="field-label">目標の所持状態</span>
+                  <select
+                    className="field-control"
+                    value={form.targetRefinement}
+                    onChange={updateField('targetRefinement')}
+                  >
+                    {weaponOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="form-field">
+                  <span className="field-label">現在の天井カウント</span>
+                  <input
+                    className="field-control"
+                    type="number"
+                    min="0"
+                    max="79"
+                    value={form.weaponPity}
+                    onChange={updateField('weaponPity')}
+                    placeholder="0-79"
+                  />
+                </label>
+
+                <label className="form-field">
+                  <span className="field-label">次の★5はPU武器確定</span>
+                  <select
+                    className="field-control"
+                    value={form.weaponGuaranteed}
+                    onChange={updateField('weaponGuaranteed')}
+                  >
+                    <option value="false">いいえ</option>
+                    <option value="true">はい</option>
+                  </select>
+                </label>
+
+                <label className="form-field">
+                  <span className="field-label">命定値</span>
+                  <select
+                    className="field-control"
+                    value={form.epitomizedPathPoints}
+                    onChange={updateField('epitomizedPathPoints')}
+                  >
+                    <option value="0">0</option>
+                    <option value="1">1</option>
                   </select>
                 </label>
               </div>
@@ -125,9 +233,13 @@ function App() {
           </section>
 
           <section className="panel">
+            <p className="section-label">Resources</p>
             <h2>リソースを入力</h2>
+
             <div className="panel-split">
               <div className="split-column">
+                <h3>所持リソース</h3>
+
                 <label className="form-field">
                   <span className="field-label field-label--with-icon">
                     <img className="resource-icon" src={primogemIcon} alt="原石" />
@@ -137,8 +249,8 @@ function App() {
                     className="field-control"
                     type="number"
                     min="0"
-                    value={resources.primogems}
-                    onChange={handleResourceChange('primogems')}
+                    value={form.primogems}
+                    onChange={updateField('primogems')}
                     placeholder="所持数を入力"
                   />
                 </label>
@@ -156,8 +268,8 @@ function App() {
                     className="field-control"
                     type="number"
                     min="0"
-                    value={resources.intertwinedFates}
-                    onChange={handleResourceChange('intertwinedFates')}
+                    value={form.intertwinedFates}
+                    onChange={updateField('intertwinedFates')}
                     placeholder="所持数を入力"
                   />
                 </label>
@@ -171,8 +283,8 @@ function App() {
                     className="field-control"
                     type="number"
                     min="0"
-                    value={resources.starlight}
-                    onChange={handleResourceChange('starlight')}
+                    value={form.starlight}
+                    onChange={updateField('starlight')}
                     placeholder="所持数を入力"
                   />
                 </label>
@@ -183,19 +295,110 @@ function App() {
 
                 <div className="summary-card">
                   <p className="summary-label">原石換算</p>
-                  <p className="summary-value">{totalPrimogemEquivalent.toLocaleString()} 個</p>
+                  <p className="summary-value">
+                    {resources.totalPrimogemEquivalent.toLocaleString()} 個
+                  </p>
                 </div>
 
                 <div className="summary-card">
                   <p className="summary-label">実質ガチャ回数</p>
-                  <p className="summary-value">{totalWishCount.toLocaleString()} 連</p>
+                  <p className="summary-value">
+                    {resources.totalWishCount.toLocaleString()} 連
+                  </p>
                 </div>
 
                 <p className="field-help">
-                  ※スターライトは {STARLIGHT_PER_INTERTWINED_FATE} 個で紡がれた運命 1 個に交換できる前提で計算しています。
+                  ※スターライトは {STARLIGHT_PER_INTERTWINED_FATE} 個で紡がれた運命
+                  1 個に交換できる前提で計算しています。
                 </p>
                 <p className="field-help">
-                  ※スターライト換算分: {starlightConvertibleFates.toLocaleString()} 回分
+                  ※スターライト換算分: {resources.starlightConvertibleFates.toLocaleString()} 回分
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section className="panel">
+            <p className="section-label">Results</p>
+            <h2>計算結果</h2>
+
+            <div className="results-grid">
+              <div className="summary-card summary-card--accent">
+                <p className="summary-label">両方達成確率</p>
+                <p className="summary-value">{probabilityLabel(successProbability)}</p>
+              </div>
+
+              <div className="summary-card">
+                <p className="summary-label">両方達成までの期待回数</p>
+                <p className="summary-value">{numberLabel(totalExpectedWishes)} 連</p>
+                <p className="field-help">
+                  期待原石: {Math.round(totalExpectedPrimogems).toLocaleString()} 個
+                </p>
+              </div>
+
+              <div className="summary-card">
+                <p className="summary-label">期待残り回数</p>
+                <p className="summary-value">{numberLabel(remainingWishCount)} 連</p>
+                <p className="field-help">実質ガチャ回数から期待回数を引いた目安です。</p>
+              </div>
+            </div>
+
+            <div className="results-grid results-grid--dual">
+              <div className="summary-card">
+                <p className="summary-label">キャラ達成確率</p>
+                <p className="summary-value">
+                  {probabilityLabel(characterPlan.successProbability)}
+                </p>
+                <p className="field-help">
+                  必要コピー数: {characterPlan.copiesNeeded} / 期待回数:{' '}
+                  {numberLabel(characterPlan.expectedWishes)} 連
+                </p>
+              </div>
+
+              <div className="summary-card">
+                <p className="summary-label">武器達成確率</p>
+                <p className="summary-value">
+                  {probabilityLabel(weaponPlan.successProbability)}
+                </p>
+                <p className="field-help">
+                  必要コピー数: {weaponPlan.copiesNeeded} / 期待回数:{' '}
+                  {numberLabel(weaponPlan.expectedWishes)} 連
+                </p>
+              </div>
+            </div>
+
+            <div className="detail-grid">
+              <div className="detail-card">
+                <h3>キャラ祈願の内訳</h3>
+                <p className="detail-row">
+                  <span>期待原石</span>
+                  <strong>{Math.round(characterPlan.expectedPrimogems).toLocaleString()} 個</strong>
+                </p>
+                <p className="detail-row">
+                  <span>現在の天井</span>
+                  <strong>{characterPlan.characterPity} 連</strong>
+                </p>
+                <p className="detail-row">
+                  <span>限定確定状態</span>
+                  <strong>{characterPlan.characterGuaranteed ? 'あり' : 'なし'}</strong>
+                </p>
+              </div>
+
+              <div className="detail-card">
+                <h3>武器祈願の内訳</h3>
+                <p className="detail-row">
+                  <span>期待原石</span>
+                  <strong>{Math.round(weaponPlan.expectedPrimogems).toLocaleString()} 個</strong>
+                </p>
+                <p className="detail-row">
+                  <span>現在の天井</span>
+                  <strong>{weaponPlan.weaponPity} 連</strong>
+                </p>
+                <p className="detail-row">
+                  <span>PU確定 / 命定値</span>
+                  <strong>
+                    {weaponPlan.weaponGuaranteed ? '確定' : '非確定'} / {weaponPlan.epitomizedPathPoints}
+                  </strong>
                 </p>
               </div>
             </div>
