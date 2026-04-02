@@ -476,6 +476,14 @@ function App() {
           </section>
         </section>
       </main>
+      <footer className="site-footer">
+        <div className="site-footer__inner">
+          <p className="site-footer__text">このサイトは『原神』のファンサイトです。</p>
+          <p className="site-footer__text">
+            計算結果は確率モデルに基づく目安であり、実際の結果を保証するものではありません。
+          </p>
+        </div>
+      </footer>
     </div>
   )
 }
