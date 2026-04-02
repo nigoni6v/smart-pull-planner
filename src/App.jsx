@@ -130,7 +130,7 @@ function App() {
       <header className="site-band">
         <div className="site-band__inner">
           <p className="eyebrow">Genshin Smart Pull Planner</p>
-          <h1>原神ガチャ確率プランナー</h1>
+          <h1>原神ガチャプランナー</h1>
         </div>
       </header>
 
@@ -386,26 +386,6 @@ function App() {
                 <p className="summary-value">{probabilityLabel(successProbability)}</p>
                 <p className="field-help">
                   期待値まであと {expectedPrimogemGap.toLocaleString()} 原石
-                </p>
-              </div>
-            </div>
-
-            <div className="results-grid results-grid--dual">
-              <div className="summary-card">
-                <p className="summary-label">キャラ祈願</p>
-                <p className="summary-value">{probabilityLabel(characterPlan.successProbability)}</p>
-                <p className="field-help">
-                  必要コピー数: {characterPlan.copiesNeeded} / 期待回数:{' '}
-                  {numberLabel(characterPlan.expectedWishes)} 連
-                </p>
-              </div>
-
-              <div className="summary-card">
-                <p className="summary-label">武器祈願</p>
-                <p className="summary-value">{probabilityLabel(weaponPlan.successProbability)}</p>
-                <p className="field-help">
-                  必要コピー数: {weaponPlan.copiesNeeded} / 期待回数:{' '}
-                  {numberLabel(weaponPlan.expectedWishes)} 連
                 </p>
               </div>
             </div>
