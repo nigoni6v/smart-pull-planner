@@ -4,6 +4,7 @@ import starlightIcon from './assets/Masterless Starglitter.png'
 import primogemIcon from './assets/primogem.png'
 import './App.css'
 import {
+  PRIMOGEMS_PER_WISH,
   STARLIGHT_PER_INTERTWINED_FATE,
   buildAvailableWishes,
   calculateCombinedPlan,
@@ -34,6 +35,25 @@ const numberLabel = (value) => value.toLocaleString(undefined, {
   maximumFractionDigits: 1,
   minimumFractionDigits: value % 1 === 0 ? 0 : 1,
 })
+const getRequiredWishesForProbability = (distribution, probabilityPercent) => {
+  if (probabilityPercent <= 0) {
+    return 0
+  }
+
+  const targetProbability = probabilityPercent / 100
+  let cumulativeProbability = 0
+
+  for (let wishes = 0; wishes < distribution.length; wishes += 1) {
+    cumulativeProbability += distribution[wishes] ?? 0
+
+    if (cumulativeProbability + Number.EPSILON >= targetProbability) {
+      return wishes
+    }
+  }
+
+  return distribution.length - 1
+}
+
 const probabilityToneClass = (probability) => {
   if (probability >= 0.75) {
     return 'summary-card--success'
@@ -47,6 +67,8 @@ const probabilityToneClass = (probability) => {
 }
 
 function App() {
+  const [characterTargetProbability, setCharacterTargetProbability] = useState(80)
+  const [weaponTargetProbability, setWeaponTargetProbability] = useState(80)
   const [form, setForm] = useState({
     currentConstellation: '0',
     targetConstellation: '0',
@@ -88,6 +110,16 @@ function App() {
     Math.round(totalExpectedPrimogems - resources.totalPrimogemEquivalent),
     0,
   )
+  const characterRequiredPrimogems =
+    getRequiredWishesForProbability(
+      characterPlan.distribution,
+      characterTargetProbability,
+    ) * PRIMOGEMS_PER_WISH
+  const weaponRequiredPrimogems =
+    getRequiredWishesForProbability(
+      weaponPlan.distribution,
+      weaponTargetProbability,
+    ) * PRIMOGEMS_PER_WISH
 
   return (
     <>
@@ -385,13 +417,26 @@ function App() {
                     <strong>{Math.round(characterPlan.expectedPrimogems).toLocaleString()} 個</strong>
                   </p>
                   <p className="detail-row">
-                    <span>現在の天井</span>
-                    <strong>{characterPlan.characterPity} 連</strong>
+                    <span>{characterTargetProbability}%での必要原石数</span>
+                    <strong>{Math.round(characterRequiredPrimogems).toLocaleString()} 個</strong>
                   </p>
-                  <p className="detail-row">
-                    <span>限定確定状態</span>
-                    <strong>{characterPlan.characterGuaranteed ? 'あり' : 'なし'}</strong>
-                  </p>
+                  <label className="detail-slider">
+                    <span className="detail-slider__header">想定する確率ライン</span>
+                    <div className="detail-slider__control">
+                      <input
+                        className="detail-slider__input detail-slider__input--character"
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value={characterTargetProbability}
+                        onChange={(event) =>
+                          setCharacterTargetProbability(Number(event.target.value))
+                        }
+                      />
+                      <strong className="detail-slider__value">{characterTargetProbability}%</strong>
+                    </div>
+                  </label>
                 </div>
 
                 <div className="detail-card">
@@ -401,15 +446,26 @@ function App() {
                     <strong>{Math.round(weaponPlan.expectedPrimogems).toLocaleString()} 個</strong>
                   </p>
                   <p className="detail-row">
-                    <span>現在の天井</span>
-                    <strong>{weaponPlan.weaponPity} 連</strong>
+                    <span>{weaponTargetProbability}%での必要原石数</span>
+                    <strong>{Math.round(weaponRequiredPrimogems).toLocaleString()} 個</strong>
                   </p>
-                  <p className="detail-row">
-                    <span>PU確定 / 命定値</span>
-                    <strong>
-                      {weaponPlan.weaponGuaranteed ? '確定' : '非確定'} / {weaponPlan.epitomizedPathPoints}
-                    </strong>
-                  </p>
+                  <label className="detail-slider">
+                    <span className="detail-slider__header">想定する確率ライン</span>
+                    <div className="detail-slider__control">
+                      <input
+                        className="detail-slider__input detail-slider__input--weapon"
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value={weaponTargetProbability}
+                        onChange={(event) =>
+                          setWeaponTargetProbability(Number(event.target.value))
+                        }
+                      />
+                      <strong className="detail-slider__value">{weaponTargetProbability}%</strong>
+                    </div>
+                  </label>
                 </div>
               </div>
             </details>
