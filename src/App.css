@@ -1,7 +1,18 @@
+.page-shell {
+  min-height: 100vh;
+  background-image:
+    linear-gradient(rgba(244, 239, 230, 0.78), rgba(244, 239, 230, 0.86)),
+    var(--app-background-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
 .site-band {
   width: 100%;
   padding: 10px 0;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255);
   border-bottom: 1px solid rgba(80, 80, 80, 0.08);
 }
 

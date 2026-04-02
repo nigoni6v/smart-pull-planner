@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import backgroundImage from './assets/1.0KV1_2560x1440.jpg'
 import intertwinedFateIcon from './assets/Intertwined Fate.png'
 import starlightIcon from './assets/Masterless Starglitter.png'
 import primogemIcon from './assets/primogem.png'
@@ -120,9 +121,12 @@ function App() {
       weaponPlan.distribution,
       weaponTargetProbability,
     ) * PRIMOGEMS_PER_WISH
+  const pageStyle = {
+    '--app-background-image': `url(${backgroundImage})`,
+  }
 
   return (
-    <>
+    <div className="page-shell" style={pageStyle}>
       <header className="site-band">
         <div className="site-band__inner">
           <p className="eyebrow">Genshin Smart Pull Planner</p>
@@ -472,7 +476,7 @@ function App() {
           </section>
         </section>
       </main>
-    </>
+    </div>
   )
 }
 
