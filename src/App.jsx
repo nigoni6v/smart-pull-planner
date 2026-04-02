@@ -136,11 +136,12 @@ function App() {
 
       <main className="app-shell">
         <section className="hero-panel">
-          <p className="section-label">Probability Planner</p>
-          <h2>入力した条件から、キャラと武器を両取りできる確率をすぐ計算</h2>
+          <p className="section-label">Guide</p>
+          <h2>サイトの使い方</h2>
           <p className="hero-copy">
-            現在の凸数、精錬数、天井、保証状態、命定値、所持資源を入力すると、
-            限定キャラ祈願と武器祈願を両方達成できる確率と期待値を即時計算します。
+            所持リソースとガチャ条件を入力してください。<br />
+            期待値や達成率をもとに、
+            あなたのガチャ計画を手助けします。
           </p>
         </section>
 
