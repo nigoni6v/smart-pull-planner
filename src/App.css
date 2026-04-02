@@ -131,6 +131,21 @@
   border-color: rgba(164, 127, 49, 0.22);
 }
 
+.summary-card--success {
+  background: rgba(204, 239, 184, 0.96);
+  border-color: rgba(66, 130, 38, 0.52);
+}
+
+.summary-card--warn {
+  background: rgba(255, 230, 153, 0.96);
+  border-color: rgba(204, 138, 0, 0.52);
+}
+
+.summary-card--danger {
+  background: rgba(244, 177, 166, 0.96);
+  border-color: rgba(179, 56, 38, 0.52);
+}
+
 .summary-label {
   margin: 0 0 8px;
   font-size: 12px;

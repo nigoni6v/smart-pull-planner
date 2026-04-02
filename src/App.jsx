@@ -34,6 +34,17 @@ const numberLabel = (value) => value.toLocaleString(undefined, {
   maximumFractionDigits: 1,
   minimumFractionDigits: value % 1 === 0 ? 0 : 1,
 })
+const probabilityToneClass = (probability) => {
+  if (probability >= 0.75) {
+    return 'summary-card--success'
+  }
+
+  if (probability >= 0.5) {
+    return 'summary-card--warn'
+  }
+
+  return 'summary-card--danger'
+}
 
 function App() {
   const [form, setForm] = useState({
@@ -73,6 +84,10 @@ function App() {
     totalExpectedPrimogems,
     successProbability,
   } = combinedPlan
+  const expectedPrimogemGap = Math.max(
+    Math.round(totalExpectedPrimogems - resources.totalPrimogemEquivalent),
+    0,
+  )
 
   return (
     <>
@@ -330,11 +345,11 @@ function App() {
                 </p>
               </div>
 
-              <div className="summary-card">
+              <div className={`summary-card ${probabilityToneClass(successProbability)}`}>
                 <p className="summary-label">所持リソースで達成できる確率</p>
                 <p className="summary-value">{probabilityLabel(successProbability)}</p>
                 <p className="field-help">
-                  実質ガチャ回数: {resources.totalWishCount.toLocaleString()} 連
+                  期待値まであと {expectedPrimogemGap.toLocaleString()} 原石
                 </p>
               </div>
             </div>
