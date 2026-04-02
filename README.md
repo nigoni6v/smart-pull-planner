@@ -95,3 +95,8 @@ npm run build
 - 計算モデルの精度向上
 - 不足分の原石を課金で補う場合の最小課金額の計算
 - 掴みし明光のロジックを実装
+## GitHub Pages
+
+- Public URL: `https://nigoni6v.github.io/smart-pull-planner/`
+- Deploys automatically when you push to `main`
+- In GitHub, open `Settings > Pages` and set `Source` to `GitHub Actions` for the first deployment
